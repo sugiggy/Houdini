@@ -13,4 +13,4 @@ group.insertBefore('execute',parm) #insert before execute button
 #group.addParmTemplate(parm) # add to end
 
 node.setParmTemplateGroup(group)
-#print 'added Pipeline Render Button'
+print 'added Pipeline Render Button'
