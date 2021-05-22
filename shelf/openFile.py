@@ -16,7 +16,7 @@ def defGetRefPath(path):
 
     else : return path
 
-imgType = ['ifd','opengl','comp','arnold','Redshift_ROP'] 
+imgType = ['ifd','opengl','comp','arnold','Redshift_ROP','usdrender_rop','karma'] 
 geoType = ['geometry','file','alembic','Redshift_Proxy_Output']
 
 for node in hou.selectedNodes():
@@ -29,7 +29,9 @@ for node in hou.selectedNodes():
     if nodeType == 'arnold':   parmName = 'ar_picture'
     if nodeType == 'Redshift_ROP': parmName = 'RS_outputFileNamePrefix'
     if nodeType == 'Redshift_Proxy_Output': parmName = 'RS_archive_file'
-
+    if nodeType == 'usdrender_rop' : parmName = 'outputimage'
+    if nodeType == 'karma' : parmName = 'picture'    
+    
     if nodeType == 'geometry': parmName = 'sopoutput'
     if nodeType == 'file':   parmName = 'file'
     if nodeType == 'alembic' :parmName = 'fileName'  
