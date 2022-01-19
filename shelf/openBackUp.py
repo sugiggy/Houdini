@@ -5,7 +5,7 @@ import os
 
 #dir = '/mnt/LOCAL/TMP/'
 #print dir
-dir = hou.getenv("HOUDINI_TEMP_DIR")
+dir = hou.getenv("HOUDINI_TEMP_DIR")+"/"
 print dir
 files = []
 for file in os.listdir(dir):
