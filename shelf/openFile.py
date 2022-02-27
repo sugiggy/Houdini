@@ -17,7 +17,7 @@ def defGetRefPath(path):
     else : return path
 
 imgType = ['ifd','opengl','comp','arnold','Redshift_ROP','usdrender_rop','karma'] 
-geoType = ['geometry','file','alembic','Redshift_Proxy_Output']
+geoType = ['geometry','file','alembic','Redshift_Proxy_Output','ropgeometry']
 
 for node in hou.selectedNodes():
     nodeType = node.type().name()
@@ -32,7 +32,7 @@ for node in hou.selectedNodes():
     if nodeType == 'usdrender_rop' : parmName = 'outputimage'
     if nodeType == 'karma' : parmName = 'picture'    
     
-    if nodeType == 'geometry': parmName = 'sopoutput'
+    if nodeType == 'geometry' or nodeType =='ropgeometry': parmName = 'sopoutput'
     if nodeType == 'file':   parmName = 'file'
     if nodeType == 'alembic' :parmName = 'fileName'  
     
@@ -51,11 +51,14 @@ for node in hou.selectedNodes():
         #path = path.replace(pad,'%04d')
         #os.system("rv"+" "+path+ " &")
         #print path
-        subprocess.call(['/bin/bash', '-i', '-c', "djv"+" "+path+ " &"]) # for djv , need to add alias djv in .bashrc
-        
+        if platform.system()=='Linux':subprocess.call(['/bin/bash', '-i', '-c', "djv"+" "+path+ " &"]) # for djv , need to add alias djv in .bashrc
+        if platform.system()=='Windows':
+            djv = r'"C:\Program Files\djv-1.1.0-Windows-64\bin\djv_view.exe"'
+            cmd = "start " + djv+" "+ path.replace("/", "\\") + " &"
+            os.system(cmd)
 
     if nodeType in geoType:
         path = os.path.dirname(path)
         #print path
-        if platform.system()=='Linux': os.system("caja"+" "+path+ " &")
+        if platform.system()=='Linux': os.system("nemo"+" "+path+ " &")
         if platform.system()=='Windows': os.system("explorer"+" "+ path.replace("/", "\\") + " &")
