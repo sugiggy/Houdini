@@ -7,3 +7,9 @@ for node in hou.selectedNodes():
             p = hou.ui.paneTabOfType(hou.paneTabType.NetworkEditor)
             p.setCurrentNode(hou.node(path))
             p.homeToSelection()
+            break
+        if path.startswith('/obj/'):
+            p = hou.ui.paneTabOfType(hou.paneTabType.NetworkEditor)
+            p.setCurrentNode(hou.node(path))
+            p.homeToSelection()
+            break    
