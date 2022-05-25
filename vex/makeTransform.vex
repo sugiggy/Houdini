@@ -1,0 +1,7 @@
+vector N = normalize(point(1,'P',0)-point(1,'P',1));
+vector up = prim(1,'N',0);
+matrix3 mat = maketransform(N,up);
+p@orient = quaternion(mat);
+v@rotation = cracktransform(0,0,1,{0,0,0},mat); // for vdb by transform sop
+
+@P = prim(2,'P',0);
