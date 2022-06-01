@@ -1,0 +1,19 @@
+
+import hou
+
+
+node = kwargs['node']
+
+import nodeEventScript
+reload(nodeEventScript)
+
+# exec default .cmd
+nodeEventScript.OnCreatedCmd(node.path())
+
+
+import pipeTab.createPipelineTab as pcp
+pcp.createPipeTab(node,False)
+
+
+
+

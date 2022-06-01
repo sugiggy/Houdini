@@ -1,0 +1,15 @@
+node = kwargs['node']
+
+group = node.parmTemplateGroup()
+parm = hou.ButtonParmTemplate("goDependRop", "Go Dependent Rop")
+parm.setScriptCallback('exec(open(hou.getenv("LAUNCHER_LIB")+"/houdini/callbackScripts/goDependRop.py").read())')
+parm.setScriptCallbackLanguage(hou.scriptLanguage.Python)
+
+group.addParmTemplate(parm) # add to end
+
+node.setParmTemplateGroup(group)
+#print 'added Pipeline Render Button'
+
+
+
+
