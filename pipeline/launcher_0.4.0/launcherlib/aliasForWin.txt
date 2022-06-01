@@ -1,0 +1,4 @@
+hythonRender=hython Z:\CG\pipeline\launcher_0.4.0\launcherlib\hythonRender.py $*
+splitRender=hython Z:\CG\pipeline\launcher_0.4.0\launcherlib\splitRender.py $*
+launcher=C:\Users\sugiggy\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\python.exe Z:\CG\pipeline\launcher_0.4.0\launcher.py
+djv="C:\Program Files\djv-1.1.0-Windows-64\bin\djv_view.exe"
