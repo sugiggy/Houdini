@@ -23,7 +23,7 @@ def createNodes():
         
         usdexport = node.parent().createNode("usdexport")
         
-        name = node.name()
+        name = node.name()+'_usd'
         if name.startswith('OUT_') == True : name = name[4:]
         
         
@@ -63,6 +63,8 @@ def createNodes():
         usdexport.parm('f3').setExpression('ch("' + rop.path() + '/f3")')
         usdexport.parm('lopoutput').setExpression('chs("' + rop.path() + '/ropoutput")') 
         usdexport.parm('fileperframe').setExpression('ch("' + rop.path() + '/fileperframe")')
+        usdexport.parm('postrender').set('opupdate()')
+        
         usdexport.setInput(0,node)
         usdexport.setPosition(node.position() + hou.Vector2(0,-1))
         txt = 'create "' + rop.path()+'" , "'+ rop.path() +'"'+ ref.path()
