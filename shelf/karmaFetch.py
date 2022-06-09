@@ -22,7 +22,7 @@ def createNodes():
         
         karma = node.parent().createNode("karma")
         
-        rop = out.createNode("fetch",karma.name())
+        rop = out.createNode("fetch",'karma_'+karma.name())
         addparms(rop)
         rop.parm('f1').setExpression('$FSTART')
         rop.parm('f2').setExpression('$FEND')
@@ -41,7 +41,7 @@ def createNodes():
         karma.parm('f2').setExpression('ch("' + rop.path() + '/f2")')
         karma.parm('f3').setExpression('ch("' + rop.path() + '/f3")')
         karma.parm('picture').setExpression('chs("' + rop.path() + '/ropoutput")') 
-        
+        karma.parm('postrender').set('opupdate()')
         
         karma.setInput(0,node)
         karma.setPosition(node.position() + hou.Vector2(0,-1))
