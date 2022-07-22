@@ -16,13 +16,12 @@ def addparms(node):
     group.insertAfter('source',parmRef)
     node.setParmTemplateGroup(group)
     
-def createNodes():
-    for node in hou.selectedNodes():
+def createKarma(node):
         curParent = node.parent().name()
         
         karma = node.parent().createNode("karma")
         
-        rop = out.createNode("fetch",'karma_'+karma.name())
+        rop = out.createNode("fetch",karma.name())
         addparms(rop)
         rop.parm('f1').setExpression('$FSTART')
         rop.parm('f2').setExpression('$FEND')
@@ -50,7 +49,6 @@ def createNodes():
         hou.ui.setStatusMessage(txt,severity=hou.severityType.ImportantMessage)
         
 
-if len(hou.selectedNodes())>0:
-    node = hou.selectedNodes()[0]      
+for node in hou.selectedNodes():
     nodeType = hou.hscript('optype -s %s' % node.path())[0][:-1]  
-    if nodeType == "lop":   createNodes()
+    if nodeType == "lop": createKarma(node)
