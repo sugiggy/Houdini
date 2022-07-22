@@ -17,64 +17,66 @@ def addparms(node):
     group.insertAfter('source',parmRef)
     node.setParmTemplateGroup(group)
     
-def createNodes():
-    for node in hou.selectedNodes():
-        curParent = node.parent().name()
-        
-        usdexport = node.parent().createNode("usdexport")
-        
-        name = node.name()+'_usd'
-        if name.startswith('OUT_') == True : name = name[4:]
-        
-        
-        rop = out.createNode("fetch",name)
-        addparms(rop)
-        rop.parm('f1').setExpression('$FSTART')
-        rop.parm('f2').setExpression('$FEND')
-        rop.parm('f3').set(1)
-        rop.parm("source").set(usdexport.path()+'/lopnet_EXPORT/USD_OUT')
-        rop.parm('ref_node').set(usdexport.path())
-        
-        ropOutput = '`chs("'+ rop.path() +'/ropoutput")`'
-        rop.parm('ropoutput').set('$CACHE/usd/$OS.$F.usd')
-        
-        
-        ref = lop.createNode("reference",name)
-        ref.parm("filepath1").set(ropOutput)
-        
-        rop.moveToGoodPosition()
-        ref.moveToGoodPosition()          
-              
-        try:
-            outNodes = node.outputs()
-            for i,outNode in enumerate(outNodes):
-                for j,inNode in enumerate(outNode.inputs()):
-                    if inNode!= None:
-                        if inNode.name() == name:
-                            #print j
-                            outNode.setInput(j,usdexport)
-        except:
-            pass
-        
+def createFetch(node):
+    curParent = node.parent().name()
+    
+    usdexport = node.parent().createNode("usdexport")
+    
+    name = node.name()+'_usd'
+    if name.startswith('OUT_') == True : name = name[4:]
+    
+    
+    rop = out.createNode("fetch",name)
+    addparms(rop)
+    rop.parm('f1').setExpression('$FSTART')
+    rop.parm('f2').setExpression('$FEND')
+    rop.parm('f3').set(1)
+    rop.parm("source").set(usdexport.path()+'/lopnet_EXPORT/USD_OUT')
+    rop.parm('ref_node').set(usdexport.path())
+    
+    ropOutput = '`chs("'+ rop.path() +'/ropoutput")`'
+    rop.parm('ropoutput').set('$CACHE/usd/$OS.$F.usd')
+    
+    
+    ref = lop.createNode("reference",name)
+    ref.parm("filepath1").set(ropOutput)
+    
+    rop.moveToGoodPosition()
+    ref.moveToGoodPosition()          
+          
+    try:
+        outNodes = node.outputs()
+        for i,outNode in enumerate(outNodes):
+            for j,inNode in enumerate(outNode.inputs()):
+                if inNode!= None:
+                    if inNode.name() == name:
+                        #print j
+                        outNode.setInput(j,usdexport)
+    except:
+        pass
+    
 
-        usdexport.parm('trange').setExpression("ch('" + rop.path() + "/trange')")
-        usdexport.parm('f1').setExpression('ch("' + rop.path() + '/f1")')
-        usdexport.parm('f2').setExpression('ch("' + rop.path() + '/f2")')
-        usdexport.parm('f3').setExpression('ch("' + rop.path() + '/f3")')
-        usdexport.parm('lopoutput').setExpression('chs("' + rop.path() + '/ropoutput")') 
-        usdexport.parm('fileperframe').setExpression('ch("' + rop.path() + '/fileperframe")')
-        usdexport.parm('postrender').set('opupdate()')
-        
-        usdexport.setInput(0,node)
-        usdexport.setPosition(node.position() + hou.Vector2(0,-1))
-        txt = 'create "' + rop.path()+'" , "'+ rop.path() +'"'+ ref.path()
-        hou.ui.setStatusMessage(txt,severity=hou.severityType.ImportantMessage)
-        
+    usdexport.parm('trange').setExpression("ch('" + rop.path() + "/trange')")
+    usdexport.parm('f1').setExpression('ch("' + rop.path() + '/f1")')
+    usdexport.parm('f2').setExpression('ch("' + rop.path() + '/f2")')
+    usdexport.parm('f3').setExpression('ch("' + rop.path() + '/f3")')
+    usdexport.parm('lopoutput').setExpression('chs("' + rop.path() + '/ropoutput")') 
+    usdexport.parm('fileperframe').setExpression('ch("' + rop.path() + '/fileperframe")')
+    usdexport.parm('postrender').set('opupdate()')
+    
+    usdexport.parm('enable_attribs').set(1)
+    usdexport.parm('enable_subsetgroups').set(1)
+    usdexport.parm('subsetgroups').set('*')
+    
+    usdexport.setInput(0,node)
+    usdexport.setPosition(node.position() + hou.Vector2(0,-1))
+    txt = 'create "' + rop.path()+'" , "'+ rop.path() +'"'+ ref.path()
+    hou.ui.setStatusMessage(txt,severity=hou.severityType.ImportantMessage)
+    
 
-if len(hou.selectedNodes())>0:
-    node = hou.selectedNodes()[0]      
+
+for node in hou.selectedNodes():      
     nodeType = hou.hscript('optype -s %s' % node.path())[0][:-1]  
     if nodeType == "sop":
-        txt = "Create 'geometry rop' and 'file' nodes?"
-        #if hou.ui.displayMessage(txt, buttons=('OK','Cancel',)) == 0 : 
-        createNodes()
+        createFetch(node)
+        
