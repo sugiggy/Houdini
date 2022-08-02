@@ -16,7 +16,7 @@ try:
     camera.setParmTemplateGroup(group)
 except: pass
 
-comment = camera.parm('vcomment').eval();
+comment = camera.parm('vcomment').unexpandedString();
 
 #node = hou.selectedNodes()[0]
 targetNode = hou.node(node.parm('targetnode').eval())
@@ -25,7 +25,7 @@ parms = targetNode.parms()
 for p in parms:
     if targetNode.type().name().startswith('pyro') or targetNode.type().name().startswith('smoke') or targetNode.type().name().startswith('flip'):
         if p.name() in commonParms or p.name() in pyroParms or p.name() in flipParms  :
-            comment += p.name() +' : '+ '\`substr(chs("' + p.path() + '"),0,6) \`' +'\n'
-    else: comment += p.name() +' : '+ '\`chs("' + p.path() + '")\`' +'\n'
+            comment += p.description() +' : '+ '\`substr(chs("' + p.path() + '"),0,6) \`' +'\n'
+    else: comment += p.description() +' : '+ '\`substr(chs("' + p.path() + '"),0,6) \`' +'\n'
         
 camera.parm('vcomment').set(comment)
