@@ -1,0 +1,14 @@
+vector up = @N;
+int pts[] = primpoints(0,@primnum);
+vector N = normalize(point(0,'P',pts[0]) - point(0,'P',pts[1]));
+int pt = addpoint(0,@P);
+
+if (ch("replace_N_up")==1){
+  vector _N = N;
+  N = up;
+  up = _N;
+}
+
+setpointattrib(0,'N',pt,N,'set');
+setpointattrib(0,'up',pt,up,'set');
+removeprim(0,@primnum,1);
