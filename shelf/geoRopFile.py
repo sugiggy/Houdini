@@ -23,7 +23,7 @@ def createGeometryRop(node):
         
     rop.parm("soppath").set(node.path())
     ropOutput = '`chs("'+ rop.path() +'/sopoutput")`'
-    rop.parm('postrender').set('opupdate()')
+    #rop.parm('postrender').set('opupdate()')
     
     file.parm("file").set(ropOutput)
     file.parm("missingframe").set(1)
