@@ -46,10 +46,20 @@ for i in range(1,len(argvs)):
                 #print Rop
                 Rop.setSelected(True, clear_all_selected=True)
                 Rop.setCurrent(True, clear_all_selected=True)
-                exec(open(L_LIB+"/houdini/renderScripts/PreRender.py").read())
+                if Rop.type().name()!='shell' :
+                    exec(open(L_LIB+"/houdini/renderScripts/PreRender.py").read())
                 #Rop.render(ignore_inputs=True)
+
+                ins = Rop.inputConnections()
+                for inCon in ins:
+                    inIndex = inCon.inputIndex()
+                    inNode = inCon.outputNode()
+                    inNode.setInput(inIndex,None,0)
+
                 Rop.parm('execute').pressButton()
-                exec(open(L_LIB+"/houdini/renderScripts/PostRender.py").read())
+                if Rop.type().name()!='shell' :
+                    exec(open(L_LIB+"/houdini/renderScripts/PostRender.py").read())
+
         #frameText = hou.hscript("render -s -V "+RenName)
 		#tmp = os.popen("ls").read()
     hou.hipFile.clear()
