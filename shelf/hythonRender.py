@@ -11,14 +11,15 @@ myFile = hou.hipFile.path()
 print('saved hip file')
 hou.hipFile.save()
 
+"""
 if platform.system()=='Linux':
     py = '/mnt/NAS/CG/pipeline/launcher_0.4.0/launcherlib/hythonRender.py'
     if 'PYTHONHOME' in os.environ:
         del os.environ['PYTHONHOME']
-    command = 'hython '+ py +' ' + myFile +  " &"
+    command = 'hython '+ py +' ' + myFile
     subprocess.call(['/bin/bash', '-i', '-c', command])
-
-if platform.system()=='Windows':
-    py = 'Z:\\CG\pipeline\\launcher_0.4.0\\launcherlib\\hythonRender.py'
-    command = 'hython '+ py +' ' + myFile +  " &"
-    subprocess.Popen(command.split())
+"""
+#if platform.system()=='Windows':
+py = hou.getenv("NAS")+'/CG/pipeline/launcher_0.4.0/launcherlib/hythonRender.py'
+command = 'hython '+ py +' ' + myFile
+subprocess.Popen(command.split())
