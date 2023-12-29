@@ -6,7 +6,8 @@ os.chdir(hou.getenv('HIP'))
 if platform.system()=='Linux':
     if 'PYTHONHOME' in os.environ:
         del os.environ['PYTHONHOME']
-    os.system("gnome-terminal")
+    #os.system("mate-terminal")
+    subprocess.Popen("mate-terminal")
     
 if platform.system()=='Windows': subprocess.Popen('cmd')
 
