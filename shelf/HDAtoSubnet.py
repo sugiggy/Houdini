@@ -21,8 +21,10 @@ for node in hou.selectedNodes():
     subnet_node = hda_node.parent().createNode("subnet", hda_node.name() + "_subnet")
     
     copy_parameters(hda_node, subnet_node)
-    hou.copyNodesToClipboard(hda_node.children())
-    hou.pasteNodesFromClipboard(subnet_node)
+
+    hou.copyNodesTo(hda_node.children(),subnet_node)
+    #hou.copyNodesToClipboard(hda_node.children())
+    #hou.pasteNodesFromClipboard(subnet_node)
     
     for i in range(len(hda_node.inputs())):
         subnet_node.setInput(i, hda_node.inputs()[i])
