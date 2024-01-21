@@ -1,27 +1,28 @@
 import hou
 
-# Get the HDA node
-for hda_node in hou.selectedNodes():
-    #hda_node = hou.selectedNodes()[0]
-    
-    # Create a subnet node at the same level as the HDA node
+def copy_parameters(source_node, target_node):
+    source_ptg = source_node.parmTemplateGroup()
+    target_ptg = target_node.parmTemplateGroup()
+
+    for folder in source_ptg.entries():
+        if target_ptg.find(folder.name()) is None:
+            target_ptg.append(folder)
+
+    target_node.setParmTemplateGroup(target_ptg)
+
+    for parm in source_node.parms():
+        parm_name = parm.name()
+
+        if target_node.parm(parm_name) is not None:
+            target_node.parm(parm_name).set(parm.eval())
+
+for node in hou.selectedNodes():
+    hda_node = node
     subnet_node = hda_node.parent().createNode("subnet", hda_node.name() + "_subnet")
     
-    # Copy parameters from HDA node to subnet node
-    for parm in hda_node.parms():
-        # Check if the parameter already exists on the subnet node
-        if subnet_node.parm(parm.name()) is None:
-            # If not, create it
-            template = parm.parmTemplate()
-            subnet_node.addSpareParmTuple(template)
-        # Now, copy the value
-        subnet_node.parm(parm.name()).set(parm.eval())
-       
+    copy_parameters(hda_node, subnet_node)
     hou.copyNodesToClipboard(hda_node.children())
     hou.pasteNodesFromClipboard(subnet_node)
     
     for i in range(len(hda_node.inputs())):
         subnet_node.setInput(i, hda_node.inputs()[i])
-        
-
-#hda_node.destroy()
