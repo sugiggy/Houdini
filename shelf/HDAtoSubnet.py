@@ -16,11 +16,7 @@ for hda_node in hou.selectedNodes():
             subnet_node.addSpareParmTuple(template)
         # Now, copy the value
         subnet_node.parm(parm.name()).set(parm.eval())
-    
-    # Move the children of the HDA node to the subnet node
-    #for child in hda_node.children():
-    #    child.copyTo(subnet_node)
-    
+       
     hou.copyNodesToClipboard(hda_node.children())
     hou.pasteNodesFromClipboard(subnet_node)
     
