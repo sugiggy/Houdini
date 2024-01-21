@@ -18,9 +18,12 @@ for hda_node in hou.selectedNodes():
         subnet_node.parm(parm.name()).set(parm.eval())
     
     # Move the children of the HDA node to the subnet node
-    for child in hda_node.children():
-        child.copyTo(subnet_node)
-        
+    #for child in hda_node.children():
+    #    child.copyTo(subnet_node)
+    
+    hou.copyNodesToClipboard(hda_node.children())
+    hou.pasteNodesFromClipboard(subnet_node)
+    
     for i in range(len(hda_node.inputs())):
         subnet_node.setInput(i, hda_node.inputs()[i])
         
