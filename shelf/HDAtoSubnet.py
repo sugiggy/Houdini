@@ -18,6 +18,7 @@ def copy_parameters(source_node, target_node):
 
 for node in hou.selectedNodes():
     hda_node = node
+    hda_node.allowEditingOfContents()
     subnet_node = hda_node.parent().createNode("subnet", hda_node.name() + "_subnet")
     
     copy_parameters(hda_node, subnet_node)
