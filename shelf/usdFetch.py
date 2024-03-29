@@ -27,15 +27,17 @@ def createFetch(node):
     
     
     rop = out.createNode("fetch",name)
+    rop.setColor(hou.Color(0.584,0.776,1))
     addparms(rop)
     rop.parm('f1').setExpression('$FSTART')
     rop.parm('f2').setExpression('$FEND')
     rop.parm('f3').set(1)
     rop.parm("source").set(usdexport.path()+'/lopnet_EXPORT/USD_OUT')
     rop.parm('ref_node').set(usdexport.path())
+    rop.parm('fileperframe').set(0)
     
     ropOutput = '`chs("'+ rop.path() +'/ropoutput")`'
-    rop.parm('ropoutput').set('$CACHE/usd/$OS.$F.usd')
+    rop.parm('ropoutput').set('$CACHE//`$OS`/v001/`$OS`.usd')
     
     
     ref = lop.createNode("reference",name)
