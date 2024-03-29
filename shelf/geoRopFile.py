@@ -5,7 +5,10 @@ parm_prefix = '_reference'
 def createGeometryRop(node):
     curParent = node.parent().name()
     
-    rop = out.createNode("geometry",node.name())
+    name = node.name()
+    if name.startswith('OUT_') == True : name = name[4:]
+    
+    rop = out.createNode("geometry",name)
     rop.moveToGoodPosition()
     file = node.parent().createNode("file")
 
