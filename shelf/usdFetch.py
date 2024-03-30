@@ -22,7 +22,7 @@ def createFetch(node):
     
     usdexport = node.parent().createNode("usdexport")
     
-    name = node.name()+'_usd'
+    name = node.name()
     if name.startswith('OUT_') == True : name = name[4:]
     
     
