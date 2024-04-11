@@ -75,8 +75,10 @@ def createFetch(node):
     txt = 'create "' + rop.path()+'" , "'+ rop.path() +'"'+ ref.path()
     hou.ui.setStatusMessage(txt,severity=hou.severityType.ImportantMessage)
     
-
-
+    usdimport = node.parent().createNode("usdimport")
+    usdimport.parm('filepath1').setExpression('chs("' + rop.path() + '/ropoutput")') 
+    usdimport.setPosition(usdexport.position() + hou.Vector2(0,-1))
+    
 for node in hou.selectedNodes():      
     nodeType = hou.hscript('optype -s %s' % node.path())[0][:-1]  
     if nodeType == "sop":
