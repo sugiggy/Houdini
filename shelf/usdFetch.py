@@ -37,7 +37,7 @@ def createFetch(node):
     rop.parm('fileperframe').set(0)
     
     ropOutput = '`chs("'+ rop.path() +'/ropoutput")`'
-    rop.parm('ropoutput').set('$CACHE//`$OS`/v001/`$OS`.usd')
+    rop.parm('ropoutput').set('$CACHE/`$OS`/v001/`$OS`.usd')
     
     
     ref = lop.createNode("reference",name)
